@@ -1,0 +1,18 @@
+{
+    "name": "shureban/laravel-prometheus",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shureban",
+            "email": "Shureban@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Shureban\\LaravelPrometheus\\": "src/"
+        }
+    },
+    "require": {}
+}
