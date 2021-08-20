@@ -19,5 +19,14 @@
         "ext-json": "*",
         "predis/predis": "^1.1",
         "myclabs/php-enum": "^1.8"
+    },
+    "extra": {
+        "laravel":{
+            "providers": [
+                "Shureban\\LaravelPrometheus\\PrometheusServiceProvider"
+            ],
+            "aliases": {
+            }
+        }
     }
 }
