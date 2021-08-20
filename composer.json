@@ -1,17 +1,33 @@
 {
     "name": "shureban/laravel-prometheus",
-    "type": "project",
+    "description": "Laravel SDK for working with prometheus metrics",
+    "keywords": [
+        "prometheus",
+        "metrics",
+        "graphana",
+        "counter",
+        "gauge",
+        "shureban"
+    ],
+    "type": "laravel-package",
     "license": "MIT",
     "authors": [
         {
             "name": "Shureban",
-            "email": "Shureban@gmail.com"
+            "email": "Shureban@gmail.com",
+            "role": "Developer"
         }
     ],
     "minimum-stability": "dev",
+    "version": "0.0.1",
     "autoload": {
         "psr-4": {
-            "Shureban\\LaravelPrometheus\\": "src/Prometheus"
+            "Shureban\\LaravelPrometheus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shureban\\LaravelPrometheus\\Tests\\": "tests/"
         }
     },
     "require": {
@@ -21,7 +37,7 @@
         "myclabs/php-enum": "^1.8"
     },
     "extra": {
-        "laravel":{
+        "laravel": {
             "providers": [
                 "Shureban\\LaravelPrometheus\\PrometheusServiceProvider"
             ],
