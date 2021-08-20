@@ -11,8 +11,13 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Shureban\\LaravelPrometheus\\": "src/"
+            "Shureban\\LaravelPrometheus\\": "src/Prometheus"
         }
     },
-    "require": {}
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-json": "*",
+        "predis/predis": "^1.1",
+        "myclabs/php-enum": "dev-master"
+    }
 }
