@@ -23,6 +23,6 @@ class PrometheusServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([__DIR__ . '/../config' => config_path('prometheus.php')]);
+        $this->publishes([__DIR__ . '/../config' => base_path('config')]);
     }
 }
