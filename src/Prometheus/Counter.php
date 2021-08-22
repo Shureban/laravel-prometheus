@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Shureban\LaravelPrometheus\Prometheus;
 
 use Shureban\LaravelPrometheus\Prometheus\Enums\MetricType;

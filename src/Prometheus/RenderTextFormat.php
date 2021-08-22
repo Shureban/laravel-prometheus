@@ -48,14 +48,14 @@ class RenderTextFormat implements RendererInterface
      */
     private function renderSample(MetricFamilySamples $metric, Sample $sample): string
     {
-        $labelNames = $metric->getLabelNames();
-
-        if ($metric->hasLabelNames() || $sample->hasLabelNames()) {
-            $escapedLabels = $this->escapeAllLabels($labelNames, $sample);
-            return $sample->getName() . '{' . implode(',', $escapedLabels) . '} ' . $sample->getValue();
+        if (!$metric->hasLabelNames()) {
+            return $metric->getName() . ' ' . $sample->getValue();
         }
 
-        return $sample->getName() . ' ' . $sample->getValue();
+        $labelNames    = $metric->getLabelNames();
+        $escapedLabels = $this->escapeAllLabels($labelNames, $sample);
+
+        return $metric->getName() . '{' . implode(',', $escapedLabels) . '} ' . $sample->getValue();
     }
 
     /**
@@ -66,13 +66,8 @@ class RenderTextFormat implements RendererInterface
      */
     private function escapeAllLabels(array $labelNames, Sample $sample): array
     {
+        $labels        = array_combine($labelNames, $sample->getLabelValues());
         $escapedLabels = [];
-
-        $labels = array_combine(array_merge($labelNames, $sample->getLabelNames()), $sample->getLabelValues());
-
-        if ($labels === false) {
-            return [];
-        }
 
         foreach ($labels as $labelName => $labelValue) {
             $escapedLabels[] = $labelName . '="' . $this->escapeLabelValue((string)$labelValue) . '"';

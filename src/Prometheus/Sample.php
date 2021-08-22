@@ -6,57 +6,23 @@ namespace Shureban\LaravelPrometheus\Prometheus;
 
 class Sample
 {
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string[]
-     */
-    private $labelNames;
-
-    /**
-     * @var mixed[]
-     */
-    private $labelValues;
-
-    /**
-     * @var int|double
-     */
-    private $value;
+    private array $labelValues;
+    private float $value;
 
     /**
      * Sample constructor.
      *
-     * @param mixed[] $data
+     * @param array $labelValues
+     * @param float $value
      */
-    public function __construct(array $data)
+    public function __construct(array $labelValues, float $value)
     {
-        $this->name        = $data['name'];
-        $this->labelNames  = (array)$data['labelNames'];
-        $this->labelValues = (array)$data['labelValues'];
-        $this->value       = $data['value'];
+        $this->labelValues = $labelValues;
+        $this->value       = $value;
     }
 
     /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getLabelNames(): array
-    {
-        return $this->labelNames;
-    }
-
-    /**
-     * @return mixed[]
+     * @return array
      */
     public function getLabelValues(): array
     {
@@ -64,18 +30,10 @@ class Sample
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getValue(): string
+    public function getValue(): float
     {
-        return (string)$this->value;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasLabelNames(): bool
-    {
-        return $this->labelNames !== [];
+        return $this->value;
     }
 }

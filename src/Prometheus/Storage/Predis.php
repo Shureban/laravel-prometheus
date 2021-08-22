@@ -4,6 +4,7 @@ namespace Shureban\LaravelPrometheus\Prometheus\Storage;
 
 use Predis\Client;
 use Illuminate\Redis\RedisManager;
+use Shureban\LaravelPrometheus\Prometheus\Sample;
 use Shureban\LaravelPrometheus\Prometheus\MetricFamilySamples;
 use Shureban\LaravelPrometheus\Prometheus\Attributes\MetaData;
 use Shureban\LaravelPrometheus\Prometheus\Attributes\MetricKey;
@@ -25,11 +26,10 @@ class Predis implements Storage
     {
         /** @var RedisManager|Client $redis */
         $redis     = app('redis');
-        $metricKey = new MetricKey($data['type'], $data['name']);
-        $metaData  = new MetaData($data['name'], $data['help'], $data['type'], $data['labelNames']);
+        $metricKey = new MetricKey($data['name'], $data['type']);
+        $metaData  = new MetaData($data['name'], $data['type'], $data['help'], $data['labelNames']);
 
-        $redis->sadd(new CounterMetricsStorageName(), [$metricKey]);
-        $redis->hset($metricKey, '__meta', json_encode($metaData));
+        $redis->hset(new CounterMetricsStorageName(), $metricKey, json_encode($metaData));
         $redis->hIncrByFloat($metricKey, json_encode($data['labelValues']), $data['value']);
     }
 
@@ -39,28 +39,21 @@ class Predis implements Storage
     public function collectCounters(): array
     {
         /** @var RedisManager|Client $redis */
-        $redis    = app('redis');
-        $keys     = $redis->smembers(new CounterMetricsStorageName());
-        $counters = [];
+        $redis       = app('redis');
+        $metricsKeys = $redis->hgetall(new CounterMetricsStorageName());
+        $counters    = [];
 
-        foreach ($keys as $key) {
-            $raw                = $redis->hgetall($key);
-            $counter            = json_decode($raw['__meta'], true);
-            $counter['samples'] = [];
+        foreach ($metricsKeys as $metricKey => $meta) {
+            $metricData = $redis->hgetall($metricKey);
+            $meta       = json_decode($meta, true);
+            $samples    = [];
 
-            unset($raw['__meta']);
-
-            foreach ($raw as $k => $value) {
-                $sample               = [
-                    'name'        => $counter['name'],
-                    'labelNames'  => [],
-                    'labelValues' => json_decode($k, true),
-                    'value'       => $value,
-                ];
-                $counter['samples'][] = $sample;
+            foreach ($metricData as $labelValues => $count) {
+                $labelValues = json_decode($labelValues, true);
+                $samples[]   = new Sample($labelValues, $count);
             }
 
-            $counters[] = new MetricFamilySamples($counter);
+            $counters[] = new MetricFamilySamples($meta, $samples);
         }
 
         return $counters;

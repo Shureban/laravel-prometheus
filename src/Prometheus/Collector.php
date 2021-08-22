@@ -13,7 +13,6 @@ use Shureban\LaravelPrometheus\Prometheus\Attributes\MetricLabelsList;
 abstract class Collector
 {
     protected Storage          $storage;
-    protected MetricNamespace  $namespace;
     protected MetricName       $name;
     protected MetricLabelsList $labels;
     protected string           $help;
@@ -26,12 +25,11 @@ abstract class Collector
      */
     public function __construct(MetricNamespace $namespace, MetricName $name, string $help, MetricLabelsList $labels)
     {
-        $this->storage   = app(config('prometheus.storage_adapter_class'));
-        $this->namespace = $namespace;
         $metricName      = ($namespace->isEmpty() ? '' : $namespace . '_') . $name;
         $this->name      = new MetricName($metricName);
         $this->help      = $help;
         $this->labels    = $labels;
+        $this->storage   = app(config('prometheus.storage_adapter_class'));
     }
 
     /**

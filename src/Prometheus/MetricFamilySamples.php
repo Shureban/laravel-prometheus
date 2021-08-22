@@ -32,17 +32,15 @@ class MetricFamilySamples
     private $samples = [];
 
     /**
-     * @param mixed[] $data
+     * @param mixed[] $meta
      */
-    public function __construct(array $data)
+    public function __construct(array $meta, array $samples)
     {
-        $this->name       = $data['name'];
-        $this->type       = $data['type'];
-        $this->help       = $data['help'];
-        $this->labelNames = $data['labelNames'];
-        foreach ($data['samples'] as $sampleData) {
-            $this->samples[] = new Sample($sampleData);
-        }
+        $this->name       = $meta['name'];
+        $this->type       = $meta['type'];
+        $this->help       = $meta['help'];
+        $this->labelNames = $meta['labelNames'];
+        $this->samples    = $samples;
     }
 
     /**

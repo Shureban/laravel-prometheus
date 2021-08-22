@@ -12,13 +12,13 @@ class MetricKey implements Stringable
     private MetricName $name;
 
     /**
-     * @param MetricType $type
      * @param MetricName $name
+     * @param MetricType $type
      */
-    public function __construct(MetricType $type, MetricName $name)
+    public function __construct(MetricName $name, MetricType $type)
     {
-        $this->type   = $type;
         $this->name   = $name;
+        $this->type   = $type;
         $this->prefix = config('prometheus.metric_prefix');
     }
 

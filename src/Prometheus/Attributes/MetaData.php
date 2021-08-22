@@ -12,11 +12,17 @@ class MetaData implements JsonSerializable
     private MetricType       $type;
     private MetricLabelsList $labels;
 
-    public function __construct(MetricName $name, string $help, MetricType $type, MetricLabelsList $labels)
+    /**
+     * @param MetricName       $name
+     * @param MetricType       $type
+     * @param string           $help
+     * @param MetricLabelsList $labels
+     */
+    public function __construct(MetricName $name, MetricType $type, string $help, MetricLabelsList $labels)
     {
         $this->name   = $name;
-        $this->help   = $help;
         $this->type   = $type;
+        $this->help   = $help;
         $this->labels = $labels;
     }
 
