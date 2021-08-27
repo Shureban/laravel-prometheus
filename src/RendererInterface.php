@@ -1,6 +1,6 @@
 <?php
 
-namespace Shureban\LaravelPrometheus\Prometheus;
+namespace Shureban\LaravelPrometheus;
 
 interface RendererInterface
 {

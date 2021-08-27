@@ -1,9 +1,9 @@
 <?php
 
-namespace Shureban\LaravelPrometheus\Prometheus\Attributes;
+namespace Shureban\LaravelPrometheus\Attributes;
 
 use Stringable;
-use Shureban\LaravelPrometheus\Prometheus\Enums\MetricType;
+use Shureban\LaravelPrometheus\Enums\MetricType;
 
 class MetricKey implements Stringable
 {

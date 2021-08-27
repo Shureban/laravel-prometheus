@@ -1,8 +1,8 @@
 <?php
 
-namespace Shureban\LaravelPrometheus\Prometheus;
+namespace Shureban\LaravelPrometheus;
 
-use Shureban\LaravelPrometheus\Prometheus\Storage\Storage;
+use Shureban\LaravelPrometheus\Storage\Storage;
 
 class RenderTextFormat implements RendererInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Shureban\LaravelPrometheus\Prometheus;
+namespace Shureban\LaravelPrometheus;
 
-use Shureban\LaravelPrometheus\Prometheus\Enums\MetricType;
+use Shureban\LaravelPrometheus\Enums\MetricType;
 
 class Counter extends Collector
 {

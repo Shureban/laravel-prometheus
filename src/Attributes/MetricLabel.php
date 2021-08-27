@@ -1,6 +1,6 @@
 <?php
 
-namespace Shureban\LaravelPrometheus\Prometheus\Attributes;
+namespace Shureban\LaravelPrometheus\Attributes;
 
 use Stringable;
 use InvalidArgumentException;

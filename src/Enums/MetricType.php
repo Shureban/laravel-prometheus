@@ -1,6 +1,6 @@
 <?php
 
-namespace Shureban\LaravelPrometheus\Prometheus\Enums;
+namespace Shureban\LaravelPrometheus\Enums;
 
 use MyCLabs\Enum\Enum;
 

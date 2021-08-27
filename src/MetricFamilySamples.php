@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shureban\LaravelPrometheus\Prometheus;
+namespace Shureban\LaravelPrometheus;
 
 class MetricFamilySamples
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shureban\LaravelPrometheus\Prometheus\Storage;
+namespace Shureban\LaravelPrometheus\Storage;
 
 interface Storage
 {

@@ -1,19 +1,19 @@
 <?php
 
-namespace Shureban\LaravelPrometheus\Prometheus\Storage;
+namespace Shureban\LaravelPrometheus\Storage;
 
 use Predis\Client;
 use Illuminate\Redis\RedisManager;
-use Shureban\LaravelPrometheus\Prometheus\Sample;
-use Shureban\LaravelPrometheus\Prometheus\MetricFamilySamples;
-use Shureban\LaravelPrometheus\Prometheus\Attributes\MetaData;
-use Shureban\LaravelPrometheus\Prometheus\Attributes\MetricKey;
-use Shureban\LaravelPrometheus\Prometheus\Attributes\CounterMetricsStorageName;
+use Shureban\LaravelPrometheus\Sample;
+use Shureban\LaravelPrometheus\MetricFamilySamples;
+use Shureban\LaravelPrometheus\Attributes\MetaData;
+use Shureban\LaravelPrometheus\Attributes\MetricKey;
+use Shureban\LaravelPrometheus\Attributes\CounterMetricsStorageName;
 
 /**
  * Class Predis
  *
- * @package App\Components\Prometheus\Storage
+ * @package App\Components\Storage
  */
 class Predis implements Storage
 {

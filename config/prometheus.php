@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'storage_adapter_class' => \Shureban\LaravelPrometheus\Prometheus\Storage\Predis::class,
+    'storage_adapter_class' => \Shureban\LaravelPrometheus\Storage\Predis::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -24,6 +24,6 @@ return [
     | This will typically be the name of your project.
     |
     */
-    'default_namespace'     => '',
+    'project_namespace'     => '',
     'metric_prefix'         => 'PROMETHEUS',
 ];
