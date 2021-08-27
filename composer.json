@@ -19,7 +19,7 @@
         }
     ],
     "minimum-stability": "dev",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "autoload": {
         "psr-4": {
             "Shureban\\LaravelPrometheus\\": "src/"

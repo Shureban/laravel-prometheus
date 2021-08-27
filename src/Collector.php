@@ -21,10 +21,19 @@ abstract class Collector
      */
     public function __construct(MetricName $name, string $help, MetricLabelsList $labels)
     {
-        $this->name    = MetricName::newWithNamespace($name, $this->getNamespace());
+        $namespace     = $this->getNamespace();
+        $this->storage = $this->getStorage();
         $this->help    = $help;
         $this->labels  = $labels;
-        $this->storage = app(config('prometheus.storage_adapter_class'));
+        $this->name    = MetricName::newWithNamespace($name, $namespace);
+    }
+
+    /**
+     * @return Storage
+     */
+    protected function getStorage(): Storage
+    {
+        return app(config('prometheus.storage_adapter_class'));
     }
 
     /**
