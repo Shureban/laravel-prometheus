@@ -3,9 +3,10 @@
 namespace Shureban\LaravelPrometheus\Attributes;
 
 use Stringable;
+use JsonSerializable;
 use InvalidArgumentException;
 
-class MetricName implements Stringable, \JsonSerializable
+class MetricName implements Stringable, JsonSerializable
 {
     private const Regex = '/^[a-zA-Z][a-zA-Z0-9_:]*$/';
 
@@ -24,6 +25,19 @@ class MetricName implements Stringable, \JsonSerializable
     }
 
     /**
+     * @param string $name
+     * @param string $namespace
+     *
+     * @return MetricName
+     */
+    public static function newWithNamespace(string $name, string $namespace): MetricName
+    {
+        $name = ($namespace === '' ? '' : $namespace . '_') . $name;
+
+        return new MetricName($name);
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
@@ -31,8 +45,11 @@ class MetricName implements Stringable, \JsonSerializable
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function jsonSerialize(): string
     {
-        return $this->name;
+        return (string)$this;
     }
 }

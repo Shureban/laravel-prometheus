@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Shureban\LaravelPrometheus;
 
 use InvalidArgumentException;
@@ -23,9 +21,7 @@ abstract class Collector
      */
     public function __construct(MetricName $name, string $help, MetricLabelsList $labels)
     {
-        $namespace     = $this->getNamespace();
-        $metricName    = ($namespace === '' ? '' : $namespace . '_') . $name;
-        $this->name    = new MetricName($metricName);
+        $this->name    = MetricName::newWithNamespace($name, $this->getNamespace());
         $this->help    = $help;
         $this->labels  = $labels;
         $this->storage = app(config('prometheus.storage_adapter_class'));
