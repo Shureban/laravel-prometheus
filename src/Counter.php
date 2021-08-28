@@ -2,35 +2,34 @@
 
 namespace Shureban\LaravelPrometheus;
 
-use Shureban\LaravelPrometheus\Enums\MetricType;
+use Shureban\LaravelPrometheus\Interfaces\Incrementer;
 
-class Counter extends Collector
+class Counter extends Collector implements Incrementer
 {
     /**
-     * @param string[] $labelsValues e.g. ['status', 'opcode']
+     * @param array $labelsValues
+     *
+     * @return Counter
      */
-    public function inc(array $labelsValues = []): void
+    public function withLabelsValues(array $labelsValues): Counter
     {
-        $this->incBy(1, $labelsValues);
+        $this->labels->setLabelsValues($labelsValues);
+
+        return $this;
+    }
+
+    public function inc(): void
+    {
+        $this->incBy(1);
     }
 
     /**
-     * @param int|float $count        e.g. 2
-     * @param array     $labelsValues e.g. ['status', 'opcode']
+     * @param int|float $count e.g. 2
+     *
+     * @return void
      */
-    public function incBy($count, array $labelsValues = []): void
+    public function incBy(float $count): void
     {
-        $this->assertLabelsAreDefinedCorrectly($labelsValues);
-
-        $this->storage->updateCounter(
-            [
-                'name'        => $this->name,
-                'help'        => $this->help,
-                'type'        => MetricType::Counter(),
-                'labelNames'  => $this->labels,
-                'labelValues' => $labelsValues,
-                'value'       => $count,
-            ]
-        );
+        $this->storage->updateCounter($this, $count);
     }
 }

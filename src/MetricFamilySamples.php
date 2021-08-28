@@ -6,41 +6,21 @@ namespace Shureban\LaravelPrometheus;
 
 class MetricFamilySamples
 {
-    /**
-     * @var mixed
-     */
-    private $name;
+    private string $name;
+    private string $type;
+    private string $help;
+    private array  $samples;
 
     /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var string
-     */
-    private $help;
-
-    /**
-     * @var string[]
-     */
-    private $labelNames;
-
-    /**
-     * @var Sample[]
-     */
-    private $samples = [];
-
-    /**
-     * @param mixed[] $meta
+     * @param array $meta
+     * @param array $samples
      */
     public function __construct(array $meta, array $samples)
     {
-        $this->name       = $meta['name'];
-        $this->type       = $meta['type'];
-        $this->help       = $meta['help'];
-        $this->labelNames = $meta['labelNames'];
-        $this->samples    = $samples;
+        $this->name    = $meta['name'];
+        $this->type    = $meta['type'];
+        $this->help    = $meta['help'];
+        $this->samples = $samples;
     }
 
     /**
@@ -68,26 +48,10 @@ class MetricFamilySamples
     }
 
     /**
-     * @return Sample[]
+     * @return array
      */
     public function getSamples(): array
     {
         return $this->samples;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getLabelNames(): array
-    {
-        return $this->labelNames;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasLabelNames(): bool
-    {
-        return $this->labelNames !== [];
     }
 }

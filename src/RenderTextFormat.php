@@ -24,65 +24,18 @@ class RenderTextFormat implements RendererInterface
     public function render(): string
     {
         $lines   = [];
-        $metrics = [];
-        $metrics = array_merge($metrics, $this->storage->collectCounters());
+        $metrics = $this->storage->collectCounters();
 
         /** @var MetricFamilySamples $metric */
         foreach ($metrics as $metric) {
-            $lines[] = "# HELP " . $metric->getName() . " {$metric->getHelp()}";
-            $lines[] = "# TYPE " . $metric->getName() . " {$metric->getType()}";
+            $lines[] = sprintf('# HELP %s %s', $metric->getName(), $metric->getHelp());
+            $lines[] = sprintf('# TYPE %s %s', $metric->getName(), $metric->getType());
 
-            foreach ($metric->getSamples() as $sample) {
-                $lines[] = $this->renderSample($metric, $sample);
+            foreach ($metric->getSamples() as $labels => $count) {
+                $lines[] = sprintf('%s%s %s', $metric->getName(), $labels, $count);
             }
         }
 
         return implode("\n", $lines) . "\n";
-    }
-
-    /**
-     * @param MetricFamilySamples $metric
-     * @param Sample              $sample
-     *
-     * @return string
-     */
-    private function renderSample(MetricFamilySamples $metric, Sample $sample): string
-    {
-        if (!$metric->hasLabelNames()) {
-            return $metric->getName() . ' ' . $sample->getValue();
-        }
-
-        $labelNames    = $metric->getLabelNames();
-        $escapedLabels = $this->escapeAllLabels($labelNames, $sample);
-
-        return $metric->getName() . '{' . implode(',', $escapedLabels) . '} ' . $sample->getValue();
-    }
-
-    /**
-     * @param string[] $labelNames
-     * @param Sample   $sample
-     *
-     * @return string[]
-     */
-    private function escapeAllLabels(array $labelNames, Sample $sample): array
-    {
-        $labels        = array_combine($labelNames, $sample->getLabelValues());
-        $escapedLabels = [];
-
-        foreach ($labels as $labelName => $labelValue) {
-            $escapedLabels[] = $labelName . '="' . $this->escapeLabelValue((string)$labelValue) . '"';
-        }
-
-        return $escapedLabels;
-    }
-
-    /**
-     * @param string $v
-     *
-     * @return string
-     */
-    private function escapeLabelValue(string $v): string
-    {
-        return str_replace(["\\", "\n", "\""], ["\\\\", "\\n", "\\\""], $v);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Shureban\LaravelPrometheus;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Shureban\LaravelPrometheus\Storage\Predis;
 
 class PrometheusServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,7 @@ class PrometheusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(Predis::class, fn (Application $app) => new Predis());
     }
 
     /**

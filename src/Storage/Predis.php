@@ -4,10 +4,11 @@ namespace Shureban\LaravelPrometheus\Storage;
 
 use Predis\Client;
 use Illuminate\Redis\RedisManager;
-use Shureban\LaravelPrometheus\Sample;
+use Shureban\LaravelPrometheus\Collector;
+use Shureban\LaravelPrometheus\Enums\MetricType;
 use Shureban\LaravelPrometheus\MetricFamilySamples;
-use Shureban\LaravelPrometheus\Attributes\MetaData;
 use Shureban\LaravelPrometheus\Attributes\MetricKey;
+use Shureban\LaravelPrometheus\Attributes\MetaInformation;
 use Shureban\LaravelPrometheus\Attributes\CounterMetricsStorageName;
 
 /**
@@ -18,19 +19,29 @@ use Shureban\LaravelPrometheus\Attributes\CounterMetricsStorageName;
 class Predis implements Storage
 {
     /**
-     * @param array $data
+     * @var RedisManager|Client
+     */
+    private $redis;
+
+    public function __construct()
+    {
+        $this->redis = app('redis');
+    }
+
+    /**
+     * @param Collector $collector
+     * @param float     $count
      *
      * @return void
      */
-    public function updateCounter(array $data): void
+    public function updateCounter(Collector $collector, float $count): void
     {
-        /** @var RedisManager|Client $redis */
-        $redis     = app('redis');
-        $metricKey = new MetricKey($data['name'], $data['type']);
-        $metaData  = new MetaData($data['name'], $data['type'], $data['help'], $data['labelNames']);
+        $metricType = MetricType::Counter();
+        $metricKey  = new MetricKey($collector->getName(), $metricType);
+        $meta       = new MetaInformation($collector->getName(), $metricType, $collector->getHelp());
 
-        $redis->hset(new CounterMetricsStorageName(), $metricKey, json_encode($metaData));
-        $redis->hIncrByFloat($metricKey, json_encode($data['labelValues']), $data['value']);
+        $this->redis->hset(new CounterMetricsStorageName(), $metricKey, json_encode($meta));
+        $this->redis->hIncrByFloat($metricKey, $collector->getLabels(), $count);
     }
 
     /**
@@ -38,22 +49,13 @@ class Predis implements Storage
      */
     public function collectCounters(): array
     {
-        /** @var RedisManager|Client $redis */
-        $redis       = app('redis');
-        $metricsKeys = $redis->hgetall(new CounterMetricsStorageName());
+        $metricsKeys = $this->redis->hgetall(new CounterMetricsStorageName());
         $counters    = [];
 
         foreach ($metricsKeys as $metricKey => $meta) {
-            $metricData = $redis->hgetall($metricKey);
             $meta       = json_decode($meta, true);
-            $samples    = [];
-
-            foreach ($metricData as $labelValues => $count) {
-                $labelValues = json_decode($labelValues, true);
-                $samples[]   = new Sample($labelValues, $count);
-            }
-
-            $counters[] = new MetricFamilySamples($meta, $samples);
+            $metricData = $this->redis->hgetall($metricKey);
+            $counters[] = new MetricFamilySamples($meta, $metricData);
         }
 
         return $counters;

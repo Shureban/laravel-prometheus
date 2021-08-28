@@ -2,30 +2,29 @@
 
 namespace Shureban\LaravelPrometheus;
 
-use InvalidArgumentException;
 use Shureban\LaravelPrometheus\Storage\Storage;
 use Shureban\LaravelPrometheus\Attributes\MetricName;
-use Shureban\LaravelPrometheus\Attributes\MetricLabelsList;
+use Shureban\LaravelPrometheus\Attributes\MetricLabels;
 
 abstract class Collector
 {
-    protected Storage          $storage;
-    protected MetricName       $name;
-    protected MetricLabelsList $labels;
-    protected string           $help;
+    protected Storage      $storage;
+    protected MetricName   $name;
+    protected MetricLabels $labels;
+    protected string       $help;
 
     /**
-     * @param MetricName       $name
-     * @param string           $help
-     * @param MetricLabelsList $labels
+     * @param MetricName   $name
+     * @param string       $help
+     * @param MetricLabels $labels
      */
-    public function __construct(MetricName $name, string $help, MetricLabelsList $labels)
+    public function __construct(MetricName $name, MetricLabels $labels, string $help)
     {
         $namespace     = $this->getNamespace();
-        $this->storage = $this->getStorage();
-        $this->help    = $help;
-        $this->labels  = $labels;
         $this->name    = MetricName::newWithNamespace($name, $namespace);
+        $this->storage = $this->getStorage();
+        $this->labels  = $labels;
+        $this->help    = $help;
     }
 
     /**
@@ -45,12 +44,26 @@ abstract class Collector
     }
 
     /**
-     * @param string[] $labels
+     * @return MetricName
      */
-    protected function assertLabelsAreDefinedCorrectly(array $labels): void
+    public function getName(): MetricName
     {
-        if (count($labels) !== $this->labels->count()) {
-            throw new InvalidArgumentException(sprintf('Labels are not defined correctly: %s', print_r($labels, true)));
-        }
+        return $this->name;
+    }
+
+    /**
+     * @return MetricLabels
+     */
+    public function getLabels(): MetricLabels
+    {
+        return $this->labels;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHelp(): string
+    {
+        return $this->help;
     }
 }
