@@ -44,7 +44,7 @@ class MetricLabels implements Arrayable, JsonSerializable, Stringable
         $result = [];
 
         foreach ($this->toArray() as $name => $value) {
-            $result[] = sprintf('%s="%s"', $value, $name);
+            $result[] = sprintf('%s="%s"', $name, $value);
         }
 
         return sprintf('{%s}', implode(',', $result));
