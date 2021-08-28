@@ -2,28 +2,24 @@
 
 namespace Shureban\LaravelPrometheus;
 
-use Shureban\LaravelPrometheus\Interfaces\Incrementer;
+use Shureban\LaravelPrometheus\Interfaces\Increment;
 
-class Counter extends Collector implements Incrementer
+/**
+ * @method Counter withLabelsValues(array $labelsValues)
+ */
+class Counter extends Collector implements Increment
 {
     /**
-     * @param array $labelsValues
-     *
-     * @return Counter
+     * @inheritDoc
      */
-    public function withLabelsValues(array $labelsValues): Counter
-    {
-        $this->labels->setLabelsValues($labelsValues);
-
-        return $this;
-    }
-
     public function inc(): void
     {
         $this->incBy(1);
     }
 
     /**
+     * @inheritDoc
+     *
      * @param int|float $count e.g. 2
      *
      * @return void

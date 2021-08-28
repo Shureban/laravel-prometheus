@@ -8,13 +8,13 @@ use Shureban\LaravelPrometheus\Collector;
 use Shureban\LaravelPrometheus\Enums\MetricType;
 use Shureban\LaravelPrometheus\Interfaces\Storage;
 use Shureban\LaravelPrometheus\MetricFamilySamples;
-use Shureban\LaravelPrometheus\Attributes\MetricsStorageKey;
 use Shureban\LaravelPrometheus\Attributes\MetaInformation;
+use Shureban\LaravelPrometheus\Attributes\MetricsStorageKey;
+use Shureban\LaravelPrometheus\Attributes\GaugeMetricsStorageName;
 use Shureban\LaravelPrometheus\Attributes\CounterMetricsStorageName;
 
 /**
  * Class Predis
- *
  * @package App\Components\Storage
  */
 class Predis implements Storage
@@ -30,6 +30,8 @@ class Predis implements Storage
     }
 
     /**
+     * @inheritDoc
+     *
      * @param Collector $collector
      * @param float     $count
      *
@@ -46,11 +48,62 @@ class Predis implements Storage
     }
 
     /**
+     * @inheritDoc
      * @return array
      */
     public function collectCounters(): array
     {
         $metricsKeys = $this->redis->hgetall(new CounterMetricsStorageName());
+        $counters    = [];
+
+        foreach ($metricsKeys as $metricKey => $meta) {
+            $meta       = json_decode($meta, true);
+            $metricData = $this->redis->hgetall($metricKey);
+            $counters[] = new MetricFamilySamples($meta, $metricData);
+        }
+
+        return $counters;
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @param Collector $collector
+     * @param float     $count
+     */
+    public function updateGauge(Collector $collector, float $count): void
+    {
+        $metricType = MetricType::Gauge();
+        $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
+        $meta       = new MetaInformation($collector->getName(), $metricType, $collector->getHelp());
+
+        $this->redis->hset(new GaugeMetricsStorageName(), $metricKey, json_encode($meta));
+        $this->redis->hIncrByFloat($metricKey, $collector->getLabels(), $count);
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @param Collector $collector
+     * @param float     $count
+     */
+    public function setGauge(Collector $collector, float $count): void
+    {
+        $metricType = MetricType::Gauge();
+        $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
+        $meta       = new MetaInformation($collector->getName(), $metricType, $collector->getHelp());
+
+        $this->redis->hset(new GaugeMetricsStorageName(), $metricKey, json_encode($meta));
+        $this->redis->hset($metricKey, $collector->getLabels(), $count);
+    }
+
+    /**
+     * @inheritDoc
+     * @return array
+     */
+    public function collectGauges(): array
+    {
+        $metricsKeys = $this->redis->hgetall(new GaugeMetricsStorageName());
         $counters    = [];
 
         foreach ($metricsKeys as $metricKey => $meta) {

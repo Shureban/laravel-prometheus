@@ -25,7 +25,7 @@ class RenderTextFormat implements RendererInterface
     public function render(): string
     {
         $lines   = [];
-        $metrics = $this->storage->collectCounters();
+        $metrics = array_merge($this->storage->collectCounters(), $this->storage->collectGauges());
 
         /** @var MetricFamilySamples $metric */
         foreach ($metrics as $metric) {

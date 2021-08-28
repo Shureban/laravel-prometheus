@@ -65,4 +65,16 @@ abstract class Collector
     {
         return $this->help;
     }
+
+    /**
+     * @param array $labelsValues
+     *
+     * @return Collector
+     */
+    public function withLabelsValues(array $labelsValues): Collector
+    {
+        $this->labels->setLabelsValues($labelsValues);
+
+        return $this;
+    }
 }
