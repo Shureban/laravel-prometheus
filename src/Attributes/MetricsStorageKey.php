@@ -5,17 +5,17 @@ namespace Shureban\LaravelPrometheus\Attributes;
 use Stringable;
 use Shureban\LaravelPrometheus\Enums\MetricType;
 
-class MetricKey implements Stringable
+class MetricsStorageKey implements Stringable
 {
     private string     $prefix;
     private MetricType $type;
-    private MetricName $name;
+    private Name       $name;
 
     /**
-     * @param MetricName $name
+     * @param Name       $name
      * @param MetricType $type
      */
-    public function __construct(MetricName $name, MetricType $type)
+    public function __construct(Name $name, MetricType $type)
     {
         $this->name   = $name;
         $this->type   = $type;

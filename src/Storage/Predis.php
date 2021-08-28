@@ -6,8 +6,9 @@ use Predis\Client;
 use Illuminate\Redis\RedisManager;
 use Shureban\LaravelPrometheus\Collector;
 use Shureban\LaravelPrometheus\Enums\MetricType;
+use Shureban\LaravelPrometheus\Interfaces\Storage;
 use Shureban\LaravelPrometheus\MetricFamilySamples;
-use Shureban\LaravelPrometheus\Attributes\MetricKey;
+use Shureban\LaravelPrometheus\Attributes\MetricsStorageKey;
 use Shureban\LaravelPrometheus\Attributes\MetaInformation;
 use Shureban\LaravelPrometheus\Attributes\CounterMetricsStorageName;
 
@@ -37,7 +38,7 @@ class Predis implements Storage
     public function updateCounter(Collector $collector, float $count): void
     {
         $metricType = MetricType::Counter();
-        $metricKey  = new MetricKey($collector->getName(), $metricType);
+        $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
         $meta       = new MetaInformation($collector->getName(), $metricType, $collector->getHelp());
 
         $this->redis->hset(new CounterMetricsStorageName(), $metricKey, json_encode($meta));

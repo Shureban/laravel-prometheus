@@ -2,7 +2,8 @@
 
 namespace Shureban\LaravelPrometheus;
 
-use Shureban\LaravelPrometheus\Storage\Storage;
+use Shureban\LaravelPrometheus\Interfaces\Storage;
+use Shureban\LaravelPrometheus\Interfaces\RendererInterface;
 
 class RenderTextFormat implements RendererInterface
 {
@@ -28,14 +29,46 @@ class RenderTextFormat implements RendererInterface
 
         /** @var MetricFamilySamples $metric */
         foreach ($metrics as $metric) {
-            $lines[] = sprintf('# HELP %s %s', $metric->getName(), $metric->getHelp());
-            $lines[] = sprintf('# TYPE %s %s', $metric->getName(), $metric->getType());
+            $lines[] = $this->renderHelpLine($metric);
+            $lines[] = $this->renderTypeLine($metric);
 
             foreach ($metric->getSamples() as $labels => $count) {
-                $lines[] = sprintf('%s%s %s', $metric->getName(), $labels, $count);
+                $lines[] = $this->renderSampleLine($metric->getName(), $labels, $count);
             }
         }
 
         return implode("\n", $lines) . "\n";
+    }
+
+    /**
+     * @param MetricFamilySamples $metric
+     *
+     * @return string
+     */
+    private function renderHelpLine(MetricFamilySamples $metric): string
+    {
+        return sprintf('# HELP %s %s', $metric->getName(), $metric->getHelp());
+    }
+
+    /**
+     * @param MetricFamilySamples $metric
+     *
+     * @return string
+     */
+    private function renderTypeLine(MetricFamilySamples $metric): string
+    {
+        return sprintf('# TYPE %s %s', $metric->getName(), $metric->getType());
+    }
+
+    /**
+     * @param string $metricName
+     * @param string $labels
+     * @param float  $count
+     *
+     * @return string
+     */
+    private function renderSampleLine(string $metricName, string $labels, float $count): string
+    {
+        return sprintf('%s%s %s', $metricName, $labels, $count);
     }
 }

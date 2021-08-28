@@ -2,27 +2,26 @@
 
 namespace Shureban\LaravelPrometheus;
 
-use Shureban\LaravelPrometheus\Storage\Storage;
-use Shureban\LaravelPrometheus\Attributes\MetricName;
-use Shureban\LaravelPrometheus\Attributes\MetricLabels;
+use Shureban\LaravelPrometheus\Attributes\Name;
+use Shureban\LaravelPrometheus\Attributes\Labels;
+use Shureban\LaravelPrometheus\Interfaces\Storage;
 
 abstract class Collector
 {
-    protected Storage      $storage;
-    protected MetricName   $name;
-    protected MetricLabels $labels;
-    protected string       $help;
+    protected Storage $storage;
+    protected Name    $name;
+    protected Labels  $labels;
+    protected string  $help;
 
     /**
-     * @param MetricName   $name
-     * @param string       $help
-     * @param MetricLabels $labels
+     * @param Name   $name
+     * @param string $help
+     * @param Labels $labels
      */
-    public function __construct(MetricName $name, MetricLabels $labels, string $help)
+    public function __construct(Name $name, Labels $labels, string $help)
     {
-        $namespace     = $this->getNamespace();
-        $this->name    = MetricName::newWithNamespace($name, $namespace);
         $this->storage = $this->getStorage();
+        $this->name    = Name::newWithNamespace($name, $this->getNamespace());
         $this->labels  = $labels;
         $this->help    = $help;
     }
@@ -44,17 +43,17 @@ abstract class Collector
     }
 
     /**
-     * @return MetricName
+     * @return Name
      */
-    public function getName(): MetricName
+    public function getName(): Name
     {
         return $this->name;
     }
 
     /**
-     * @return MetricLabels
+     * @return Labels
      */
-    public function getLabels(): MetricLabels
+    public function getLabels(): Labels
     {
         return $this->labels;
     }

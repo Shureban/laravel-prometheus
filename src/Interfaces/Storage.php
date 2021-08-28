@@ -1,6 +1,6 @@
 <?php
 
-namespace Shureban\LaravelPrometheus\Storage;
+namespace Shureban\LaravelPrometheus\Interfaces;
 
 use Shureban\LaravelPrometheus\Collector;
 

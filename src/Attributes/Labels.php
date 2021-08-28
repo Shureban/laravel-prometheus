@@ -7,7 +7,7 @@ use JsonSerializable;
 use InvalidArgumentException;
 use Illuminate\Contracts\Support\Arrayable;
 
-class MetricLabels implements Arrayable, JsonSerializable, Stringable
+class Labels implements Arrayable, JsonSerializable, Stringable
 {
     private array $labelsNames;
     private array $labelsValues = [];

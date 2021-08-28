@@ -7,16 +7,16 @@ use Shureban\LaravelPrometheus\Enums\MetricType;
 
 class MetaInformation implements JsonSerializable
 {
-    private MetricName $name;
+    private Name       $name;
     private MetricType $type;
     private string     $help;
 
     /**
-     * @param MetricName $name
+     * @param Name       $name
      * @param MetricType $type
      * @param string     $help
      */
-    public function __construct(MetricName $name, MetricType $type, string $help)
+    public function __construct(Name $name, MetricType $type, string $help)
     {
         $this->name = $name;
         $this->type = $type;
