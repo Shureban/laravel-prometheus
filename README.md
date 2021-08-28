@@ -15,7 +15,7 @@ Shureban\LaravelPrometheus\PrometheusServiceProvider::class,
 
 You can also publish the config file to change implementations (ie. interface to specific class).
 ```shell
-php artisan vendor:publish --provider="Shureban\LaravelPrometheus\PrometheusServiceProvider" --tag=config
+php artisan vendor:publish --provider="Shureban\LaravelPrometheus\PrometheusServiceProvider"
 ```
 
 Update `.env` config, change REDIS_CLIENT from redis to predis:
