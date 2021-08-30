@@ -7,7 +7,7 @@ use Shureban\LaravelPrometheus\Interfaces\Increment;
 /**
  * @method Counter withLabelsValues(array $labelsValues)
  */
-class Counter extends Collector implements Increment
+abstract class Counter extends Collector implements Increment
 {
     /**
      * @inheritDoc

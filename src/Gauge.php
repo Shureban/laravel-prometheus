@@ -9,7 +9,7 @@ use Shureban\LaravelPrometheus\Interfaces\Decrement;
 /**
  * @method Gauge withLabelsValues(array $labelsValues)
  */
-class Gauge extends Collector implements Increment, Decrement, Set
+abstract class Gauge extends Collector implements Increment, Decrement, Set
 {
     /**
      * @inheritDoc
