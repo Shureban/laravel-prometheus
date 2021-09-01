@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ namespace }};
+
+use Shureban\LaravelPrometheus\Gauge;
+use Shureban\LaravelPrometheus\Attributes\Name;
+use Shureban\LaravelPrometheus\Attributes\Labels;
+
+class {{ class }} extends Gauge
+{
+    public function __construct()
+    {
+        $name   = new Name('{{ name }}');
+        $labels = new Labels([{{ labels }}]);
+        $help   = '{{ description }}';
+
+        parent::__construct($name, $labels, $help);
+    }
+}

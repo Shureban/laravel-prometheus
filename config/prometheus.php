@@ -6,13 +6,26 @@ return [
     | Storage Adapter
     |--------------------------------------------------------------------------
     |
-    | The storage adapter to use.
+    | Common storage for all metrics
     |
-    | Supported: "Prometheus\Storage\Adapter"
+    | For any metric you can change storage, rewrites getStorage method
     |
     */
 
     'storage_adapter_class' => Shureban\LaravelPrometheus\Storage\Predis::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Common storage folder
+    |--------------------------------------------------------------------------
+    |
+    | Folder, where stored all metrics
+    |
+    | Used in make:metrics command
+    |
+    */
+
+    'storage_path' => 'App\Prometheus',
 
     /*
     |--------------------------------------------------------------------------

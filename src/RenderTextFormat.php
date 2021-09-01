@@ -2,10 +2,11 @@
 
 namespace Shureban\LaravelPrometheus;
 
+use Stringable;
 use Shureban\LaravelPrometheus\Interfaces\Storage;
 use Shureban\LaravelPrometheus\Interfaces\RendererInterface;
 
-class RenderTextFormat implements RendererInterface
+class RenderTextFormat implements RendererInterface, Stringable
 {
     const MIME_TYPE = 'text/plain; version=0.0.4';
 
@@ -16,7 +17,15 @@ class RenderTextFormat implements RendererInterface
      */
     public function __construct()
     {
-        $this->storage = app(config('prometheus.storage_adapter_class'));
+        $this->storage = $this->getStorage();
+    }
+
+    /**
+     * @return Storage
+     */
+    protected function getStorage(): Storage
+    {
+        return app(config('prometheus.storage_adapter_class'));
     }
 
     /**
@@ -70,5 +79,13 @@ class RenderTextFormat implements RendererInterface
     private function renderSampleLine(string $metricName, string $labels, float $count): string
     {
         return sprintf('%s%s %s', $metricName, $labels, $count);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->render();
     }
 }
