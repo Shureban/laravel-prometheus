@@ -2,6 +2,7 @@
 
 namespace Shureban\LaravelPrometheus;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Shureban\LaravelPrometheus\Storage\Predis;
@@ -22,6 +23,10 @@ class PrometheusServiceProvider extends ServiceProvider
             CounterMakeCommand::class,
             GaugeMakeCommand::class,
         ]);
+
+        if (config('prometheus.web_route')) {
+            Route::get(config('prometheus.web_route'), fn() => new RenderTextFormat());
+        }
     }
 
     /**

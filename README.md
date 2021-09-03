@@ -26,14 +26,17 @@ Update `.env` config, change REDIS_CLIENT from redis to predis:
 REDIS_CLIENT=predis
 ```
 
-## Usages
+## Creating metric class
 
 ### CLI supporting
 
 You may create metrics via CLI commands
 
 ```bash
+# Creating counter metric CustomCounterMetricName
 php artisan make:counter CustomCounterMetricName --name={name} --labels={label_1,label_2,label_N} --description={description}
+
+# Creating gauge metric CustomGaugeMetricName
 php artisan make:gauge CustomGaugeMetricName --name={name} --labels={label_1,label_2,label_N} --description={description}
 ```
 
@@ -43,7 +46,7 @@ php artisan make:gauge CustomGaugeMetricName --name={name} --labels={label_1,lab
 | label       | false    | The metric labels list (comma separated) |
 | description | false    | The metric description                   |
 
-### Manual creation
+### Manual
 
 Create folder, where you will contain your custom metrics classes (for example `app/Prometheus`). Realise constructor
 with metric static params.
@@ -67,6 +70,8 @@ class AuthCounter extends Counter
     }
 }
 ```
+
+## Usages
 
 Using DI (or not), increase the metric value.
 
@@ -97,11 +102,7 @@ class AuthCounter extends Counter
 {
     public function __construct()
     {
-        $name   = new Name('auth');
-        $labels = new Labels(['event']);
-        $help   = 'Counter of auth events';
-
-        parent::__construct($name, $labels, $help);
+        //... 
     }
     
     public function registration(): void 
@@ -127,7 +128,15 @@ class RegisterController extends Controller
 }
 ```
 
-### Rendering
+## Rendering
+
+Render metrics data in text format
+
+### Using config
+
+In `config/prometheus.php`, find `web_route` param and set preferred route path. Default is `/prometheus/metrics`. 
+
+### Manual
 
 For render metrics by route, you need to provide next code:
 
@@ -143,6 +152,3 @@ of using string type hinting
 return response(new RenderTextFormat(), Response::HTTP_OK, ['Content-Type' => RenderTextFormat::MIME_TYPE]);
 ```
 
-## Features
-
-- Add primary router

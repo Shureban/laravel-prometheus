@@ -54,4 +54,19 @@ return [
     */
 
     'metric_prefix' => 'PROMETHEUS',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Web route
+    |--------------------------------------------------------------------------
+    |
+    | Attach route for your web application
+    |
+    | From this path you can get metrics data
+    |
+    | If you want to add custom route, or disable this route, set null
+    |
+    */
+
+    'web_route' => '/prometheus/metrics',
 ];
