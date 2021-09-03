@@ -2,6 +2,7 @@
 
 namespace Shureban\LaravelPrometheus;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
@@ -25,7 +26,7 @@ class PrometheusServiceProvider extends ServiceProvider
         ]);
 
         if (config('prometheus.web_route')) {
-            Route::get(config('prometheus.web_route'), fn() => new RenderTextFormat());
+            Route::get(config('prometheus.web_route'), fn() => response(new RenderTextFormat(), Response::HTTP_OK, ['Content-Type' => RenderTextFormat::MIME_TYPE]));
         }
     }
 
