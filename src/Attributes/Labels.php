@@ -5,6 +5,7 @@ namespace Shureban\LaravelPrometheus\Attributes;
 use Stringable;
 use JsonSerializable;
 use InvalidArgumentException;
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 
 class Labels implements Arrayable, JsonSerializable, Stringable
@@ -18,6 +19,33 @@ class Labels implements Arrayable, JsonSerializable, Stringable
     public function __construct(array $labelsNames = [])
     {
         $this->labelsNames = $labelsNames;
+    }
+
+    /**
+     * Constructor polymorph
+     *
+     * @param array $array
+     *
+     * @return Labels
+     */
+    public static function newFromArray(array $array): Labels
+    {
+        $labels = new Labels(array_keys($array));
+        $labels->setLabelsValues(array_values($array));
+
+        return $labels;
+    }
+
+    /**
+     * Constructor polymorph
+     *
+     * @param Collection $collection
+     *
+     * @return Labels
+     */
+    public static function newFromCollection(Collection $collection): Labels
+    {
+        return Labels::newFromArray($collection->toArray());
     }
 
     /**

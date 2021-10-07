@@ -2,9 +2,6 @@
 
 namespace Shureban\LaravelPrometheus\Commands;
 
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-
 class CounterMakeCommand extends MakeCommand
 {
     /**
