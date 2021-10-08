@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+use Shureban\LaravelPrometheus\DynamicCounter;
+use Shureban\LaravelPrometheus\Attributes\Name;
+
+class {{ class }} extends DynamicCounter
+{
+    public function __construct()
+    {
+        $name = new Name('{{ name }}');
+        $help = '{{ description }}';
+
+        parent::__construct($name, $help);
+    }
+}

@@ -82,6 +82,7 @@ abstract class MakeCommand extends GeneratorCommand
             ['name', null, InputOption::VALUE_OPTIONAL, 'Name of the metric'],
             ['labels', null, InputOption::VALUE_OPTIONAL, 'The metric labels list (comma separated)'],
             ['description', null, InputOption::VALUE_OPTIONAL, 'The metric description'],
+            ['dynamic', 'd', InputOption::VALUE_NONE, 'Create dynamic metric option'],
         ];
     }
 }

@@ -25,6 +25,8 @@ class GaugeMakeCommand extends MakeCommand
      */
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/gauge.stub';
+        return $this->option('dynamic')
+            ? __DIR__ . '/stubs/gauge.stub'
+            : __DIR__ . '/stubs/dynamic_gauge.stub';
     }
 }
