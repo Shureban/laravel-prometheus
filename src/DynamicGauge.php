@@ -3,11 +3,12 @@
 namespace Shureban\LaravelPrometheus;
 
 use Shureban\LaravelPrometheus\Interfaces\Set;
+use Shureban\LaravelPrometheus\Attributes\Labels;
 use Shureban\LaravelPrometheus\Interfaces\Increment;
 use Shureban\LaravelPrometheus\Interfaces\Decrement;
 
 /**
- * @method DynamicGauge withLabels(array $labelsValues)
+ * @method DynamicGauge withLabels(Labels $labels)
  */
 abstract class DynamicGauge extends DynamicCollector implements Increment, Decrement, Set
 {

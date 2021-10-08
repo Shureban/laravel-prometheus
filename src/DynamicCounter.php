@@ -2,10 +2,11 @@
 
 namespace Shureban\LaravelPrometheus;
 
+use Shureban\LaravelPrometheus\Attributes\Labels;
 use Shureban\LaravelPrometheus\Interfaces\Increment;
 
 /**
- * @method DynamicCounter withLabels(array $labelsValues)
+ * @method DynamicCounter withLabels(Labels $labels)
  */
 abstract class DynamicCounter extends DynamicCollector implements Increment
 {
