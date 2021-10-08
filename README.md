@@ -34,17 +34,18 @@ You may create metrics via CLI commands
 
 ```bash
 # Creating counter metric CustomCounterMetricName
-php artisan make:counter CustomCounterMetricName --name={name} --labels={label_1,label_2,label_N} --description={description}
+php artisan make:counter CustomCounterMetricName --name={name} --labels={label_1,label_2,label_N} --description={description} --dynamic
 
 # Creating gauge metric CustomGaugeMetricName
-php artisan make:gauge CustomGaugeMetricName --name={name} --labels={label_1,label_2,label_N} --description={description}
+php artisan make:gauge CustomGaugeMetricName --name={name} --labels={label_1,label_2,label_N} --description={description} --dynamic
 ```
 
-| Option      | Required | Description                              |
-| ----------- |:--------:| -----------------------------------------|
-| name        | false    | Name of the metric                       |
-| label       | false    | The metric labels list (comma separated) |
-| description | false    | The metric description                   |
+| Option      | Alias | Required | Description                              |
+| ----------- |:-----:|:--------:| -----------------------------------------|
+| name        |       | false    | Name of the metric                       |
+| label       |       | false    | The metric labels list (comma separated) |
+| description |       | false    | The metric description                   |
+| dynamic     | d     | false    | The metric description                   |
 
 ### Manual
 
@@ -72,6 +73,8 @@ class AuthCounter extends Counter
 ```
 
 ## Usages
+
+### General metrics flow
 
 Using DI (or not), increase the metric value.
 
@@ -124,6 +127,27 @@ class RegisterController extends Controller
         // Registration new user logic
     
         $counter->registration();
+    }
+}
+```
+
+### Dynamic metrics flow
+
+Dynamic flow may help you attach more labels with different sizes
+
+```php
+use App\Prometheus\AuthCounter;
+use Shureban\LaravelPrometheus\Attributes\Labels;
+
+class RegisterController extends Controller
+{
+    public function __invoke(..., DynamicAuthCounter $counter): Response
+    {
+        // Registration new user logic
+    
+        $counter->withLabels(Labels::newFromArray(['event' => 'registration', 'country' => 'US']))->inc();
+        $counter->withLabels(Labels::newFromArray(['event' => 'registration', 'country' => 'US', 'browser' => 'chrome']))->inc();
+        $counter->withLabels(Labels::newFromCollection($user->only(['country', 'browser'])))->inc();
     }
 }
 ```
