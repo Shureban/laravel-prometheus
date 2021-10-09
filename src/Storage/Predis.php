@@ -4,10 +4,10 @@ namespace Shureban\LaravelPrometheus\Storage;
 
 use Predis\Client;
 use Illuminate\Redis\RedisManager;
-use Shureban\LaravelPrometheus\Collector;
 use Shureban\LaravelPrometheus\Enums\MetricType;
 use Shureban\LaravelPrometheus\Interfaces\Storage;
 use Shureban\LaravelPrometheus\MetricFamilySamples;
+use Shureban\LaravelPrometheus\Interfaces\Collector;
 use Shureban\LaravelPrometheus\Attributes\MetaInformation;
 use Shureban\LaravelPrometheus\Attributes\MetricsStorageKey;
 use Shureban\LaravelPrometheus\Attributes\GaugeMetricsStorageName;
@@ -15,6 +15,7 @@ use Shureban\LaravelPrometheus\Attributes\CounterMetricsStorageName;
 
 /**
  * Class Predis
+ *
  * @package App\Components\Storage
  */
 class Predis implements Storage

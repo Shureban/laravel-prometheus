@@ -2,8 +2,6 @@
 
 namespace Shureban\LaravelPrometheus\Interfaces;
 
-use Shureban\LaravelPrometheus\Collector;
-
 interface Storage
 {
     /**

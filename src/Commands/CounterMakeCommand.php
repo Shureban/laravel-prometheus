@@ -2,9 +2,6 @@
 
 namespace Shureban\LaravelPrometheus\Commands;
 
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-
 class CounterMakeCommand extends MakeCommand
 {
     /**
@@ -28,6 +25,8 @@ class CounterMakeCommand extends MakeCommand
      */
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/counter.stub';
+        return $this->option('dynamic')
+            ? __DIR__ . '/stubs/counter.stub'
+            : __DIR__ . '/stubs/dynamic_counter.stub';
     }
 }

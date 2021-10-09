@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+use Shureban\LaravelPrometheus\DynamicGauge;
+use Shureban\LaravelPrometheus\Attributes\Name;
+
+class {{ class }} extends DynamicGauge
+{
+    public function __construct()
+    {
+        $name = new Name('{{ name }}');
+        $help = '{{ description }}';
+
+        parent::__construct($name, $help);
+    }
+}
