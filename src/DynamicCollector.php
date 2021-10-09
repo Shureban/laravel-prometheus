@@ -5,8 +5,9 @@ namespace Shureban\LaravelPrometheus;
 use Shureban\LaravelPrometheus\Attributes\Name;
 use Shureban\LaravelPrometheus\Attributes\Labels;
 use Shureban\LaravelPrometheus\Interfaces\Storage;
+use Shureban\LaravelPrometheus\Interfaces\Collector;
 
-abstract class DynamicCollector
+abstract class DynamicCollector implements Collector
 {
     protected Storage $storage;
     protected Name    $name;

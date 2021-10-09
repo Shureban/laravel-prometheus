@@ -4,10 +4,10 @@ namespace Shureban\LaravelPrometheus\Storage;
 
 use Predis\Client;
 use Illuminate\Redis\RedisManager;
-use Shureban\LaravelPrometheus\DynamicCollector;
 use Shureban\LaravelPrometheus\Enums\MetricType;
 use Shureban\LaravelPrometheus\Interfaces\Storage;
 use Shureban\LaravelPrometheus\MetricFamilySamples;
+use Shureban\LaravelPrometheus\Interfaces\Collector;
 use Shureban\LaravelPrometheus\Attributes\MetaInformation;
 use Shureban\LaravelPrometheus\Attributes\MetricsStorageKey;
 use Shureban\LaravelPrometheus\Attributes\GaugeMetricsStorageName;
@@ -33,12 +33,12 @@ class Predis implements Storage
     /**
      * @inheritDoc
      *
-     * @param DynamicCollector $collector
+     * @param Collector $collector
      * @param float            $count
      *
      * @return void
      */
-    public function updateCounter(DynamicCollector $collector, float $count): void
+    public function updateCounter(Collector $collector, float $count): void
     {
         $metricType = MetricType::Counter();
         $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
@@ -69,10 +69,10 @@ class Predis implements Storage
     /**
      * @inheritDoc
      *
-     * @param DynamicCollector $collector
+     * @param Collector $collector
      * @param float            $count
      */
-    public function updateGauge(DynamicCollector $collector, float $count): void
+    public function updateGauge(Collector $collector, float $count): void
     {
         $metricType = MetricType::Gauge();
         $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
@@ -85,10 +85,10 @@ class Predis implements Storage
     /**
      * @inheritDoc
      *
-     * @param DynamicCollector $collector
+     * @param Collector $collector
      * @param float            $count
      */
-    public function setGauge(DynamicCollector $collector, float $count): void
+    public function setGauge(Collector $collector, float $count): void
     {
         $metricType = MetricType::Gauge();
         $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
