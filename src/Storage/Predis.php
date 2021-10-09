@@ -34,7 +34,7 @@ class Predis implements Storage
      * @inheritDoc
      *
      * @param Collector $collector
-     * @param float            $count
+     * @param float     $count
      *
      * @return void
      */
@@ -70,7 +70,7 @@ class Predis implements Storage
      * @inheritDoc
      *
      * @param Collector $collector
-     * @param float            $count
+     * @param float     $count
      */
     public function updateGauge(Collector $collector, float $count): void
     {
@@ -86,7 +86,7 @@ class Predis implements Storage
      * @inheritDoc
      *
      * @param Collector $collector
-     * @param float            $count
+     * @param float     $count
      */
     public function setGauge(Collector $collector, float $count): void
     {
