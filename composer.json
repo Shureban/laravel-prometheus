@@ -19,6 +19,7 @@
         }
     ],
     "minimum-stability": "dev",
+    "version": "1.0.0",
     "autoload": {
         "psr-4": {
             "Shureban\\LaravelPrometheus\\": "src/"
@@ -42,6 +43,9 @@
             ],
             "aliases": {
             }
+        },
+        "branch-alias": {
+            "dev-master": "1.x-dev"
         }
     }
 }
