@@ -2,11 +2,11 @@
 
 namespace Shureban\LaravelPrometheus\Commands;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Support\Str;
 use Shureban\LaravelPrometheus\Enums\MetricType;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 abstract class MakeCommand extends GeneratorCommand
 {
@@ -31,8 +31,9 @@ abstract class MakeCommand extends GeneratorCommand
         $metricName = $this->option('name');
 
         if (!$metricName) {
+            $types      = array_map(fn(MetricType $type) => $type->value, MetricType::cases());
             $metricName = Str::snake($this->getNameInput());
-            $metricName = str_replace(MetricType::values(), '', $metricName);
+            $metricName = str_replace($types, '', $metricName);
             $metricName = str_replace('__', '_', $metricName);
             $metricName = trim($metricName, '_');
         }

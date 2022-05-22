@@ -2,14 +2,8 @@
 
 namespace Shureban\LaravelPrometheus\Enums;
 
-use MyCLabs\Enum\Enum;
-
-/**
- * @method static self Counter()
- * @method static self Gauge()
- */
-class MetricType extends Enum
+enum MetricType: string
 {
-    public const Counter = 'counter';
-    public const Gauge   = 'gauge';
+    case Counter = 'counter';
+    case Gauge = 'gauge';
 }

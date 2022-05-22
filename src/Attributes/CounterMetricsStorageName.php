@@ -19,6 +19,6 @@ class CounterMetricsStorageName implements Stringable
      */
     public function __toString(): string
     {
-        return implode('_', [$this->prefix, MetricType::Counter(), 'METRIC_KEYS']);
+        return implode('_', [$this->prefix, MetricType::Counter->value, 'METRIC_KEYS']);
     }
 }

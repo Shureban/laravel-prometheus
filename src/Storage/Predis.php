@@ -40,7 +40,7 @@ class Predis implements Storage
      */
     public function updateCounter(Collector $collector, float $count): void
     {
-        $metricType = MetricType::Counter();
+        $metricType = MetricType::Counter;
         $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
         $meta       = new MetaInformation($collector->getName(), $metricType, $collector->getHelp());
 
@@ -74,7 +74,7 @@ class Predis implements Storage
      */
     public function updateGauge(Collector $collector, float $count): void
     {
-        $metricType = MetricType::Gauge();
+        $metricType = MetricType::Gauge;
         $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
         $meta       = new MetaInformation($collector->getName(), $metricType, $collector->getHelp());
 
@@ -90,7 +90,7 @@ class Predis implements Storage
      */
     public function setGauge(Collector $collector, float $count): void
     {
-        $metricType = MetricType::Gauge();
+        $metricType = MetricType::Gauge;
         $metricKey  = new MetricsStorageKey($collector->getName(), $metricType);
         $meta       = new MetaInformation($collector->getName(), $metricType, $collector->getHelp());
 
