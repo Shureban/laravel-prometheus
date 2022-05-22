@@ -28,7 +28,7 @@ class MetaInformation implements JsonSerializable
         return [
             'name' => $this->name,
             'help' => $this->help,
-            'type' => $this->type,
+            'type' => $this->type->value,
         ];
     }
 }

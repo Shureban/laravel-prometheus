@@ -27,6 +27,6 @@ class MetricsStorageKey implements Stringable
      */
     public function __toString(): string
     {
-        return implode(':', [$this->prefix, $this->type, $this->name]);
+        return implode(':', [$this->prefix, $this->type->value, $this->name]);
     }
 }

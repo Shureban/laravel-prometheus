@@ -19,6 +19,6 @@ class GaugeMetricsStorageName implements Stringable
      */
     public function __toString(): string
     {
-        return implode('_', [$this->prefix, MetricType::Gauge(), 'METRIC_KEYS']);
+        return implode('_', [$this->prefix, MetricType::Gauge->value, 'METRIC_KEYS']);
     }
 }
