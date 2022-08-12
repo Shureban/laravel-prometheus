@@ -2,13 +2,13 @@
 
 namespace Shureban\LaravelPrometheus;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use Shureban\LaravelPrometheus\Storage\Predis;
-use Shureban\LaravelPrometheus\Commands\GaugeMakeCommand;
 use Shureban\LaravelPrometheus\Commands\CounterMakeCommand;
+use Shureban\LaravelPrometheus\Commands\GaugeMakeCommand;
+use Shureban\LaravelPrometheus\Storage\Predis;
 
 class PrometheusServiceProvider extends ServiceProvider
 {
@@ -19,7 +19,7 @@ class PrometheusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Predis::class, fn (Application $app) => new Predis());
+        $this->app->singleton(Predis::class, fn(Application $app) => new Predis());
         $this->commands([
             CounterMakeCommand::class,
             GaugeMakeCommand::class,
