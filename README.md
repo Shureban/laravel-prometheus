@@ -41,11 +41,11 @@ php artisan make:gauge CustomGaugeMetricName --name={name} --labels={label_1,lab
 ```
 
 | Option      | Alias | Required | Description                              |
-| ----------- |:-----:|:--------:| -----------------------------------------|
-| name        |       | false    | Name of the metric                       |
-| label       |       | false    | The metric labels list (comma separated) |
-| description |       | false    | The metric description                   |
-| dynamic     | d     | false    | The metric description                   |
+|-------------|:-----:|:--------:|------------------------------------------|
+| name        |       |  false   | Name of the metric                       |
+| label       |       |  false   | The metric labels list (comma separated) |
+| description |       |  false   | The metric description                   |
+| dynamic     |   d   |  false   | The metric description                   |
 
 ### Manual
 
